@@ -7,6 +7,14 @@
   <version>1.0-SNAPSHOT</version>
   <url>http://maven.apache.org</url>
   <build>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <includes>
+          <include>**/*</include>
+        </includes>
+      </resource>
+    </resources>
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -37,6 +45,9 @@
                   </excludes>
                 </filter>
               </filters>
+              <transformers>
+                <transformer />
+              </transformers>
             </configuration>
           </execution>
         </executions>
@@ -60,6 +71,7 @@
   <properties>
     <hibernate.version>6.3.1.Final</hibernate.version>
     <hikaricp.version>5.0.1</hikaricp.version>
+    <flywaydb.version>10.19.0</flywaydb.version>
     <maven.compiler.source>17</maven.compiler.source>
     <zeebe.version>8.6.0</zeebe.version>
     <maven.compiler.target>17</maven.compiler.target>

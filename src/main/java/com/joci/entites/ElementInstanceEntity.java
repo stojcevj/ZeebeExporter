@@ -48,6 +48,7 @@ public class ElementInstanceEntity{
     public final String getGeneratedIdentifier() {
         return this.PartitionId + "-" + this.Position;
     }
+
     @PrePersist
     private void prePersistDeriveIdField() {
         setId(getGeneratedIdentifier());

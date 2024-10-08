@@ -12,27 +12,27 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @SuperBuilder
 public class ProcessInstanceEntity extends BaseEntity{
-    String BpmnProcessId;
+    private String BpmnProcessId;
 
-    Integer Version;
+    private Integer Version;
 
-    Long ProcessDefinitionKey;
+    private Long ProcessDefinitionKey;
 
-    String ElementId;
+    private String ElementId;
 
-    Long FlowScopeKey;
+    private Long FlowScopeKey;
 
-    String BpmnElementType;
+    private String BpmnElementType;
 
-    Long ParentProcessInstanceKey;
+    private Long ParentProcessInstanceKey;
 
-    Long ParentElementInstanceKey;
+    private Long ParentElementInstanceKey;
 
-    String BpmnEventType;
+    private String BpmnEventType;
 
-    String State;
+    private String State;
 
-    Long StartTime;
+    private Long StartTime;
 
-    Long EndTime;
+    private Long EndTime;
 }

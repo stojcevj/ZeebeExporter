@@ -3,15 +3,18 @@ package com.joci.mappers;
 import com.joci.entites.ElementInstanceEntity;
 import com.joci.entites.ProcessEntity;
 import com.joci.entites.ProcessInstanceEntity;
+import com.joci.entites.VariableEntity;
 import com.joci.repository.impl.ElementInstanceRepository;
 import com.joci.repository.impl.ProcessInstanceRepository;
 import com.joci.repository.impl.ProcessRepository;
+import com.joci.repository.impl.VariableRepository;
 import io.camunda.zeebe.exporter.api.context.Controller;
 import io.camunda.zeebe.protocol.Protocol;
 import io.camunda.zeebe.protocol.record.intent.ProcessInstanceIntent;
 import io.camunda.zeebe.protocol.record.value.DeploymentRecordValue;
 import io.camunda.zeebe.protocol.record.Record;
 import io.camunda.zeebe.protocol.record.value.ProcessInstanceRecordValue;
+import io.camunda.zeebe.protocol.record.value.VariableRecordValue;
 import io.camunda.zeebe.protocol.record.value.deployment.DeploymentResource;
 import io.camunda.zeebe.protocol.record.value.deployment.ProcessMetadataValue;
 
@@ -105,6 +108,33 @@ public class EntityMapper {
             elementInstanceEntity.setProcessDefinitionKey(record.getValue().getProcessDefinitionKey());
             elementInstanceEntity.setBpmnElementType(record.getValue().getBpmnElementType().name());
             elementInstanceRepository.save(elementInstanceEntity, elementInstanceEntity.getGeneratedIdentifier());
+        }
+
+        controller.updateLastExportedRecordPosition(record.getPosition());
+    }
+
+    public static void ToVariableEntity(Record<VariableRecordValue> record,
+                                       Controller controller,
+                                       VariableRepository variableRepository) {
+        VariableEntity variableEntity =
+                VariableEntity.builder()
+                        .PartitionId(record.getPartitionId())
+                        .Position(record.getPosition())
+                        .build();
+
+        if(variableRepository.findById(variableEntity.getGeneratedIdentifier()) == null){
+            variableEntity.setIntent(record.getIntent().name());
+            variableEntity.setTimestamp(record.getTimestamp());
+            variableEntity.setProcessInstanceKey(record.getValue().getProcessInstanceKey());
+            variableEntity.setScopeKey(record.getValue().getScopeKey());
+            variableEntity.setProcessDefinitionKey(record.getValue().getProcessDefinitionKey());
+            variableEntity.setName(record.getValue().getName());
+            variableEntity.setBrokerVersion(record.getBrokerVersion());
+            variableEntity.setSourceRecordPosition(record.getSourceRecordPosition());
+            variableEntity.setValue(record.getValue().getValue());
+            variableEntity.setState(record.getIntent().name().toLowerCase());
+            variableEntity.setBpmnProcessId(record.getValue().getBpmnProcessId());
+            variableRepository.save(variableEntity, variableEntity.getGeneratedIdentifier());
         }
 
         controller.updateLastExportedRecordPosition(record.getPosition());
