@@ -1,7 +1,6 @@
-package com.joci.entites;
+package com.joci.entites.BaseEntites;
 
 import jakarta.persistence.*;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

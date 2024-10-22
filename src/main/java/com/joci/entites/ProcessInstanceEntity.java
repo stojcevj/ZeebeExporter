@@ -1,5 +1,6 @@
 package com.joci.entites;
 
+import com.joci.entites.BaseEntites.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,7 +12,7 @@ import lombok.experimental.SuperBuilder;
 @Setter
 @NoArgsConstructor
 @SuperBuilder
-public class ProcessInstanceEntity extends BaseEntity{
+public class ProcessInstanceEntity extends BaseEntity {
     private String BpmnProcessId;
 
     private Integer Version;

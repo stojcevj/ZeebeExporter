@@ -1,5 +1,6 @@
 package com.joci.entites;
 
+import com.joci.entites.BaseEntites.BaseEntityNoKey;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,17 +18,14 @@ import lombok.experimental.SuperBuilder;
 @Setter
 @SuperBuilder
 @NoArgsConstructor
-public class ElementInstanceEntity{
+public class ElementInstanceEntity extends BaseEntityNoKey {
+
     @Id
     private String Id;
 
-    private Long Position;
-
-    private Integer PartitionId;
-
     private Long Key_;
 
-    private String Intent;
+    private Long ProcessDefinitionKey;
 
     private Long ProcessInstanceKey;
 
@@ -37,16 +35,8 @@ public class ElementInstanceEntity{
 
     private Long FlowScopeKey;
 
-    private Long ProcessDefinitionKey;
-
-    private Long Timestamp;
-
-    private void setId(final String Id) {
-        this.Id = Id;
-    }
-
     public final String getGeneratedIdentifier() {
-        return this.PartitionId + "-" + this.Position;
+        return this.getPartitionId() + "-" + this.getPosition();
     }
 
     @PrePersist

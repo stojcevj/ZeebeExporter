@@ -1,12 +1,11 @@
 package com.joci.repository.impl;
 
-import com.joci.entites.BaseEntity;
 import com.joci.repository.GenericRepository;
-import io.camunda.zeebe.exporter.api.context.Controller;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Optional;
 
 public class GenericRepositoryImpl<T, ID extends Serializable> implements GenericRepository<T, ID> {
     private final SessionFactory sessionFactory;
@@ -18,16 +17,16 @@ public class GenericRepositoryImpl<T, ID extends Serializable> implements Generi
     }
 
     @Override
-    public T findById(ID id) {
+    public Optional<T> findById(ID id) {
         try (Session session = sessionFactory.openSession()) {
-            return session.get(entityClass, id);
+            return Optional.ofNullable(session.get(entityClass, id));
         }
     }
 
     @Override
     public List<T> findAll() {
         try (Session session = sessionFactory.openSession()) {
-            return session.createQuery("from " + entityClass.getSimpleName(), entityClass).list();
+            return session.createQuery("FROM " + entityClass.getSimpleName(), entityClass).list();
         }
     }
 
@@ -41,7 +40,7 @@ public class GenericRepositoryImpl<T, ID extends Serializable> implements Generi
             if (existingEntity == null) {
                 session.persist(entity);
             } else {
-                System.out.println("Entity with id " + id + " already exists.");
+                session.merge(entity);
             }
 
             session.getTransaction().commit();
